@@ -23,3 +23,4 @@ yarn dev
 yarn build
 ```
 
+# vue2048
