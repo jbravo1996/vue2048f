@@ -1,0 +1,15 @@
+### Example user template
+
+*.md
+Dockerfile
+Jenkinsfile
+.git*
+deploy.sh
+dist/*
+node_modules/*
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
