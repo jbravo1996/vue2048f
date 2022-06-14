@@ -3,6 +3,7 @@ pipeline {
     options {
         ansiColor('xterm')
         timestamps()
+        disableConcurrentBuild()
     }
     stages {
         stage('Build') {
@@ -17,6 +18,12 @@ pipeline {
                 sh 'git push --tags'
                 }
             }
+        }
+        stage('Wait'){
+            steps{
+                sleep time: 20, unit: 'SECONDS'
+            }
+
         }
     }
 }
