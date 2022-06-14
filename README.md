@@ -22,5 +22,3 @@ yarn dev
 ```bash
 yarn build
 ```
-
-# vue2048
