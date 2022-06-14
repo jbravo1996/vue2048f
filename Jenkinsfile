@@ -19,11 +19,11 @@ pipeline {
                 }
             }
         }
-        stage('Wait'){
+        /*stage('Wait'){
             steps{
                 sleep time: 20, unit: 'SECONDS'
             }
 
-        }
+        } */
     }
 }
