@@ -12,10 +12,10 @@ pipeline {
           }
         }*/
         stage('Parallel QA'){
-          when {
+          /*when {
             branch 'main'
           }
-          failFast true
+          failFast true*/
           parallel{
             stage('Trivy fs'){
               steps{
