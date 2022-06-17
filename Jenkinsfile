@@ -5,6 +5,9 @@ pipeline {
           steps{
             sh 'trivy fs vue-2048'
           }
+          post{
+
+          }
         }
         stage('Build') {
             steps {
