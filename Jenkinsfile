@@ -1,18 +1,14 @@
 pipeline {
     agent any
-    options {
-        ansiColor('xterm')
-        timestamps()
-        disableConcurrentBuilds()
-        buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
-    }
     stages {
         stage('Trivy'){
           steps{
-            sh 'trivy fs vue-2048'
+            sh 'trivy fs -f json -o results.json .'
           }
-          post{
-
+          post {
+            success{
+                recordIssues(tools: [trivy(pattern: './results.json')])
+            }
           }
         }
         stage('Build') {
@@ -28,11 +24,6 @@ pipeline {
                 }
             }
         }
-        /*stage('Wait'){
-            steps{
-                sleep time: 20, unit: 'SECONDS'
-            }
-
-        } */
     }
 }
+
