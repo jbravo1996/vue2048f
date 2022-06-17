@@ -7,7 +7,7 @@ pipeline {
           }
           post {
             success{
-                recordIssues(tools: [trivy(pattern: './results.json')])
+                recordIssues(tools: [trivy(pattern: 'results.json')])
             }
           }
         }
