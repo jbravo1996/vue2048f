@@ -14,7 +14,7 @@ pipeline {
           }
           post {
             success {
-              recordIssues(tools: [trivy(pattern: 'results.json')])
+              recordIssues(tools: [trivy(id: 'trivyfs', pattern: 'results.json')])
             }
           }
         }
@@ -24,7 +24,7 @@ pipeline {
           }
           post {
             success {
-              recordIssues(tools: [trivy(pattern: 'resultsC.json')])
+              recordIssues(tools: [trivy(id: 'trivyC', pattern: 'resultsC.json')])
             }
           }
         }
