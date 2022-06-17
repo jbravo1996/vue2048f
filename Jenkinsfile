@@ -7,9 +7,17 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
     }
     stages {
+        stage('Trivy'){
+          steps{
+            sh 'trivy fs vue-2048'
+          }
+          post{
+
+          }
+        }
         stage('Build') {
             steps {
-               sh "docker-compose build"
+               sh 'docker-compose build'
             }
         }
         stage('Publish'){
