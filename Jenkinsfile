@@ -1,9 +1,14 @@
 pipeline {
     agent any
     stages {
+        stage('Trivy'){
+          steps{
+            sh 'trivy fs vue-2048'
+          }
+        }
         stage('Build') {
             steps {
-               sh "docker-compose build"
+               sh 'docker-compose build'
             }
         }
         stage('Publish'){
