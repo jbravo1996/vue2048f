@@ -1,0 +1,7 @@
+version: "3.0"
+services:
+  vue2048:
+    image: nginx:latest
+    build: .
+    ports:
+      - "80:80"
