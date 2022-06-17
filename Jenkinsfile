@@ -29,11 +29,11 @@ pipeline {
             }
             stage('Trivy container'){
               steps{
-                sh 'trivy image -f json -o results.json .'
+                sh 'trivy image -f json -o resultsC.json vue2048'
               }
             post {
               success{
-                recordIssues(tools: [trivy(pattern: 'results.json')])
+                recordIssues(tools: [trivy(pattern: 'resultsC.json')])
               }
                  }
             }
