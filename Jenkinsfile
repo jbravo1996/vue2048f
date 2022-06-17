@@ -1,13 +1,41 @@
 pipeline {
     agent any
     stages {
-        stage('Trivy'){
+        /*stage('Trivy'){
           steps{
             sh 'trivy fs -f json -o results.json .'
           }
           post {
             success{
                 recordIssues(tools: [trivy(pattern: 'results.json')])
+            }
+          }
+        }*/
+        stage('Parallel QA'){
+          when {
+            branch 'main'
+          }
+          failFast true
+          parallel{
+            stage('Trivy fs'){
+              steps{
+                sh 'trivy fs -f json -o results.json .'
+              }
+            post {
+              success{
+                recordIssues(tools: [trivy(pattern: 'results.json')])
+              }
+                 }
+            }
+            stage('Trivy container'){
+              steps{
+                sh 'trivy image -f json -o results.json .'
+              }
+            post {
+              success{
+                recordIssues(tools: [trivy(pattern: 'results.json')])
+              }
+                 }
             }
           }
         }
