@@ -11,6 +11,12 @@ pipeline {
             }
           }
         }*/
+        stage('Build') {
+            steps {
+               sh 'docker-compose build'
+            }
+        }
+        
         stage('Parallel QA'){
           /*when {
             branch 'main'
@@ -39,11 +45,7 @@ pipeline {
             }
           }
         }
-        stage('Build') {
-            steps {
-               sh 'docker-compose build'
-            }
-        }
+        
         stage('Publish'){
             steps {
                 sshagent(['ssh-gitkey']) {
