@@ -38,6 +38,14 @@ pipeline {
         }
       }
     }
+    stage('Docker push on GitHub'){
+      steps{
+        withCredentials([string(credentialsId: 'ssh-gitkey', keyFileVariable: '')]) {
+              //sh 'echo $var2 | docker login -u jbravo1996 --password-stdin'
+              sh 'docker push ghcr.io/jbravo1996/jbravo1996/vue2048f:latest'
+        }
+      }
+    }
     stage('Publish') {
       steps {
         sshagent(['ssh-gitkey']) {
