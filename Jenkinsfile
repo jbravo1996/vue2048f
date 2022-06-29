@@ -33,16 +33,16 @@ pipeline {
     stage('Docker push'){
       steps{
         withCredentials([string(credentialsId: 'docker-tk', variable: 'var')]) {
-              sh 'echo $var | docker login -u jbravo1996 --password-stdin'
+              sh 'echo $var | docker login ghcr.io -u jbravo1996 --password-stdin'
               sh 'docker push jbravo1996/vue2048f:latest'
         }
       }
     }
     stage('Docker push on GitHub'){
       steps{
-        withCredentials([string(credentialsId: 'ssh-gitkey', keyFileVariable: '')]) {
-              //sh 'echo $var2 | docker login -u jbravo1996 --password-stdin'
-              sh 'docker push ghcr.io/jbravo1996/jbravo1996/vue2048f:latest'
+        withCredentials([string(credentialsId: 'git-tk', variable: 'var2')]) {
+              sh 'echo $var2 | docker login -u jbravo1996 --password-stdin'
+              sh 'docker push ghcr.io/jbravo1996/vue2048f:latest'
         }
       }
     }
