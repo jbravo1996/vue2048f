@@ -42,7 +42,7 @@ pipeline {
       steps{
         withCredentials([string(credentialsId: 'git-tk', variable: 'var2')]) {
               sh 'echo $var2 | docker login ghcr.io -u jbravo1996 --password-stdin'
-              sh 'docker push ghcr.io/jbravo1996/vue2048f:latest'
+              sh 'docker push ghcr.io/jbravo1996/jbravo1996/vue2048f:latest'
         }
       }
     }
