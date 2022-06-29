@@ -32,7 +32,7 @@ pipeline {
     }
     stage('Docker push'){
       steps{
-        withCredentials([string(credentialsId: 'docker-token', variable: 'var')]) {
+        withCredentials([string(credentialsId: 'docker-tk', variable: 'var')]) {
               sh 'echo $var docker login -u jbravo1996 --password-stdin'
               sh 'docker push jbravo1996/vue2048f:latest'
         }
