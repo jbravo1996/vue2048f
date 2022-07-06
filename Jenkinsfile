@@ -16,21 +16,21 @@ pipeline {
       parallel {
         stage('Trivy fs') {
           steps {
-            sh 'trivy fs -f json -o results.json .'
+            sh 'trivy fs -f json -o results.json .' , colorized: true
           }
           post {
             success {
-              recordIssues(tools: [trivy(id: 'trivyfs', pattern: 'results.json')])
+              recordIssues(tools: [trivy(id: 'trivyfs', pattern: 'results.json')], colorized: true)
             }
           }
         }
         stage('Trivy container') {
           steps {
-            sh 'trivy image -f json -o resultsC.json nginx'
+            sh 'trivy image -f json -o resultsC.json nginx', colorized: true
           }
           post {
             success {
-              recordIssues(tools: [trivy(id: 'trivyC', pattern: 'resultsC.json')])
+              recordIssues(tools: [trivy(id: 'trivyC', pattern: 'resultsC.json')], colorized: true)
             }
           }
         }
@@ -45,7 +45,7 @@ pipeline {
     }
     stage('Publish') {
       steps {
-        sshagent(['ssh-gitkey']) {
+        sshagent(['ssh-gitkey'], colorized: true) {
           sh 'git tag BUILD-1.0.${BUILD_NUMBER}'
           sh 'git push --tags'
         }
