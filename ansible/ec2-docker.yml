@@ -1,0 +1,89 @@
+---
+- name: Create a sandbox instance
+  hosts: localhost
+  gather_facts: False
+  vars:
+    keypair: sinensia-key
+    instance_type: t2.micro
+    security_group: ssh+http
+    image: ami-0d71ea30463e0ff8d
+    region: eu-west-1
+  tasks:
+    - name: Launch instance
+      ec2:
+        key_name: "{{ keypair }}"
+        group: "{{ security_group }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ image }}"
+        wait: true
+        region: "{{ region }}"
+        vpc_subnet_id: subnet-08b5507d0a110f5ea
+        assign_public_ip: yes
+        instance_tags:
+          Name: FormacionAWS-docker
+      register: ec2
+
+    - name: Add new instance to host group
+      add_host:
+        hostname: "{{ item.public_ip }}"
+        groupname: launched
+      loop: "{{ ec2.instances }}"
+
+    - name: Wait for SSH to come up
+      delegate_to: "{{ item.public_dns_name }}"
+      wait_for_connection:
+        delay: 10
+        sleep: 5
+        timeout: 300
+      loop: "{{ ec2.instances }}"
+      vars:
+        ansible_user: ec2-user
+
+- name: Configure instance(s)
+  hosts: launched
+  vars:
+    ansible_user: ec2-user
+  become: True
+  gather_facts: True
+  tasks:
+    - name: Install docker
+      become: true
+      shell:  amazon-linux-extras install -y docker
+
+    - name: Start docker service
+      become: true
+      service:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Add user to Docker
+      user:
+       name: ec2-user
+       group: docker
+
+    - name: Install docker-compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-linux-x86_64
+        dest: /usr/local/bin/docker-compose
+
+    - name: Symlink
+      file:
+        src: /usr/local/bin/docker-compose
+        dest: /usr/bin/docker-compose
+        state: link
+        owner: ec2-user
+        mode: '0755'
+
+    - name: Install vue2048 docker-compose yaml
+      copy:
+        src: /home/sinensia/vue2048-main/docker-compose.yml
+        dest: /home/ec2-user/Docker/
+
+    - name: Pull package from Dockerhub
+      become: true
+      shell: docker-compose -f /home/ec2-user/Docker/docker-compose.yml pull
+
+    - name: Run docker-compose
+      become: true
+      shell: docker-compose -f /home/ec2-user/Docker/docker-compose.yml up -d --no-build
