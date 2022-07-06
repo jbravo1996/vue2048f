@@ -20,17 +20,17 @@ pipeline {
           }
           post {
             success {
-              recordIssues(tools: [trivy(id: 'trivyfs', pattern: 'results.json')], colorized: true)
+              recordIssues(tools: [trivy(id: 'trivyfs', pattern: 'results.json')])
             }
           }
         }
         stage('Trivy container') {
           steps {
-            sh 'trivy image -f json -o resultsC.json nginx', colorized: true
+            sh 'trivy image -f json -o resultsC.json nginx' , colorized: true
           }
           post {
             success {
-              recordIssues(tools: [trivy(id: 'trivyC', pattern: 'resultsC.json')], colorized: true)
+              recordIssues(tools: [trivy(id: 'trivyC', pattern: 'resultsC.json')])
             }
           }
         }
@@ -45,9 +45,9 @@ pipeline {
     }
     stage('Publish') {
       steps {
-        sshagent(['ssh-gitkey'], colorized: true) {
-          sh 'git tag BUILD-1.0.${BUILD_NUMBER}'
-          sh 'git push --tags'
+        sshagent(['ssh-gitkey']) {
+          sh 'git tag BUILD-1.0.${BUILD_NUMBER}' , colorized: true
+          sh 'git push --tags' , colorized: true
         }
       }
     }
