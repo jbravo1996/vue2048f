@@ -16,7 +16,7 @@ pipeline {
       parallel {
         stage('Trivy fs') {
           steps {
-            sh 'trivy fs -f json -o results.json .' , colorized: true
+            sh 'trivy fs -f json -o results.json .'
           }
           post {
             success {
@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Trivy container') {
           steps {
-            sh 'trivy image -f json -o resultsC.json nginx' , colorized: true
+            sh 'trivy image -f json -o resultsC.json nginx'
           }
           post {
             success {
@@ -46,8 +46,8 @@ pipeline {
     stage('Publish') {
       steps {
         sshagent(['ssh-gitkey']) {
-          sh 'git tag BUILD-1.0.${BUILD_NUMBER}' , colorized: true
-          sh 'git push --tags' , colorized: true
+          sh 'git tag BUILD-1.0.${BUILD_NUMBER}'
+          sh 'git push --tags'
         }
       }
     }
