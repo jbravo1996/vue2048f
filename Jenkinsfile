@@ -1,5 +1,11 @@
 pipeline {
   agent any
+  options {
+    ansiColor('xterm')
+    timestamps()
+    disableConcurrentBuilds()
+    buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
+  }
   stages {
     stage('Build') {
       steps {
@@ -30,8 +36,8 @@ pipeline {
         }
       }
     }
-    stage('EC2 Instance+ Ansible Playbook'){
-      steps{
+    stage('EC2 Instance+ Ansible Playbook') {
+      steps {
         withAWS(credentials: 'Admin-AWS', endpointUrl: 'https://117876762515.signin.aws.amazon.com/console', region: 'eu-west-1') {
           ansiblePlaybook colorized: true, credentialsId: 'ssh-ansible', disableHostKeyChecking: true, playbook: 'ansible/ec2-docker.yml'
         }
