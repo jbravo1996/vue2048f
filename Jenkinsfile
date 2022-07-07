@@ -13,6 +13,11 @@ pipeline {
       }
     }
     stage('Parallel QA') {
+      when{
+        expression{
+          false
+        }
+      }
       parallel {
         stage('Trivy fs') {
           steps {
