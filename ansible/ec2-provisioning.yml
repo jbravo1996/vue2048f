@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: true
+  vars:
+    ansible_user: ec2-user
+
+- name: Configure instance(s)
+  hosts: all
+  become: True
+  vars:
+    ansible_user: ec2-user
+  gather_facts: True
+  tasks:
+    - name: Install apache2 httpd
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Start apache2 service
+      service:
+        name: httpd
+        state: started
+
+    - name: Git vue-2048
+      copy:
+        src: /home/sinensia/vue2048-main/dist/
+        dest: /var/www/html/
