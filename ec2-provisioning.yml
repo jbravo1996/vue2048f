@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    ansible_user: ec2-user
+  tasks:
+    - name: Execute tasks
+      include_tasks: "{{ item }}"
+      loop:
+        - ec2-docker.yaml
