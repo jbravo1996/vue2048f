@@ -1,21 +1,12 @@
 ---
+---
 - hosts: all
-  become: True
+  become: true
+  gather_facts: true
   vars:
     ansible_user: ec2-user
-  gather_facts: True
   tasks:
-    - name: Install apache2 httpd
-      yum:
-        name: httpd
-        state: latest
-
-    - name: Start apache2 service
-      service:
-        name: httpd
-        state: started
-
-    - name: Git vue-2048
-      copy:
-        src: /home/sinensia/vue2048-main/dist/
-        dest: /var/www/html/
+    - name: Execute tasks
+      include_tasks: "{{ item }}"
+      loop:
+        - ec2-docker.yaml
