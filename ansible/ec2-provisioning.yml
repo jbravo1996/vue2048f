@@ -8,4 +8,4 @@
     - name: Execute tasks
       include_tasks: "{{ item }}"
       loop:
-        - ec2-docker.yaml
+        - ec2-docker.yml
