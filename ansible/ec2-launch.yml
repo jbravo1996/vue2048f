@@ -1,5 +1,5 @@
 ---
-- name: Create a sandbox instance
+- name: Create an EC2 instance
   hosts: localhost
   gather_facts: False
   vars:
@@ -21,6 +21,7 @@
         assign_public_ip: yes
         instance_tags:
           Name: FormacionAWS-httpd
+          APP: vue2048
       register: ec2
 
     - name: Add new instance to host group
