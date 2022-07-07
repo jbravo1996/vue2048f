@@ -13,8 +13,8 @@ pipeline {
       }
     }
     stage('Parallel QA') {
-      when{
-        expression{
+      when {
+        expression {
           false
         }
       }
@@ -44,9 +44,10 @@ pipeline {
     stage('EC2 Instance+ Ansible Playbook') {
       steps {
         withAWS(credentials: 'Admin-AWS', endpointUrl: 'https://117876762515.signin.aws.amazon.com/console', region: 'eu-west-1') {
-          sh 'terraform init'
-          sh 'terraform apply -auto-approve'
-          ansiblePlaybook colorized: true, credentialsId: 'ssh-ansible', disableHostKeyChecking: true, inventory: './ansible/aws_ec2.yml' , playbook: './ansible/ec2-provisioning.yml'
+          sh '''cd terraform
+                terraform init
+                terraform apply -auto-approve'''
+          ansiblePlaybook colorized: true, credentialsId: 'ssh-ansible', disableHostKeyChecking: true, inventory: './ansible/aws_ec2.yml', playbook: './ansible/ec2-provisioning.yml'
         }
       }
     }
