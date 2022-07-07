@@ -46,7 +46,7 @@ pipeline {
         withAWS(credentials: 'Admin-AWS', endpointUrl: 'https://117876762515.signin.aws.amazon.com/console', region: 'eu-west-1') {
           sh 'terraform init'
           sh 'terraform apply -auto-approve'
-          ansiblePlaybook colorized: true, credentialsId: 'ssh-ansible', disableHostKeyChecking: true, playbook: '-i ec2-provisioning.yml'
+          ansiblePlaybook colorized: true, credentialsId: 'ssh-ansible', disableHostKeyChecking: true, playbook: '-i aws_ec2.yml ec2-provisioning.yml'
         }
       }
     }
