@@ -1,11 +1,5 @@
 ---
 - hosts: all
-  become: true
-  vars:
-    ansible_user: ec2-user
-
-- name: Configure instance(s)
-  hosts: all
   become: True
   vars:
     ansible_user: ec2-user
