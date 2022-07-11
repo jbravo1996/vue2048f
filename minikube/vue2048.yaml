@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vue2048
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      vue: web
+  template:
+    metadata:
+      labels:
+        vue: web
+    spec:
+      containers:
+      - name: vue2048
+        image: jbravo1996/vue2048f:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vue-service
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    vue: web
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30001

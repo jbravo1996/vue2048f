@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replica-demo
+  labels:
+    app: demo
+    tier: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: demo
+  template:
+    metadata:
+      labels:
+        tier: demo
+    spec:
+      containers:
+      - name: testpod
+        image: alpine:latest
+        command: ["ping", "8.8.8.8"]
+

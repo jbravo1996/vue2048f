@@ -42,3 +42,4 @@ override.tf.json
 # example: *tfplan*
 .terraform.lock.*
 .terraform
+*.p12
