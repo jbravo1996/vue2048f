@@ -77,7 +77,7 @@ YI4CtRZOUD0dMZrkRAUT9dz7SbXZKQeHCxcfHrtvI8rEgNX4hwdD9nUFfdh8hmlT
 Ow0+xpC9h4THhRGnuYNThyGiSctgEnWlliLmow3xT7NeiVXZD9tJG+radnhxKUgX
 alQvzF6+MYkBhg==
 -----END CERTIFICATE-----''', clusterName: 'minikube', contextName: '', credentialsId: 'kubectl', namespace: '', serverUrl: 'https://192.168.49.2:8443']]) {
-          // some block
+          sh 'kubectl apply -f vue2048.yaml '
         }
       }
     }
